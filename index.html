@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Luis Gerardo Martínez · iOS</title>
+  <meta name="description" content="Portafolio iOS de Luis Gerardo Martínez: aplicaciones con Swift, SwiftUI y SwiftData, construidas con mentalidad de QA.">
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --surface: #ffffff;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --line: #e3e3e8;
+      --accent: #0071e3;
+      --accent-soft: #e8f1fc;
+      --radius: 18px;
+      --max: 1040px;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #000000;
+        --surface: #161618;
+        --text: #f5f5f7;
+        --muted: #a1a1a6;
+        --line: #2c2c2e;
+        --accent: #2997ff;
+        --accent-soft: #0b2540;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+
+    /* Nav */
+    nav {
+      position: sticky; top: 0; z-index: 10;
+      background: color-mix(in srgb, var(--bg) 80%, transparent);
+      backdrop-filter: saturate(180%) blur(16px);
+      -webkit-backdrop-filter: saturate(180%) blur(16px);
+      border-bottom: 1px solid var(--line);
+    }
+    nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 52px; }
+    nav .brand { font-weight: 600; color: var(--text); }
+    nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; font-size: 14px; }
+    nav ul a { color: var(--muted); }
+    nav ul a:hover { color: var(--text); text-decoration: none; }
+
+    /* Hero */
+    .hero { padding: 96px 0 72px; text-align: center; }
+    .eyebrow {
+      display: inline-block; font-size: 13px; font-weight: 600;
+      color: var(--accent); background: var(--accent-soft);
+      padding: 6px 12px; border-radius: 999px; margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 7vw, 64px); line-height: 1.05;
+      letter-spacing: -0.02em; margin: 0 0 18px; font-weight: 700;
+    }
+    .hero p { font-size: clamp(17px, 2.4vw, 21px); color: var(--muted); max-width: 640px; margin: 0 auto 32px; }
+    .cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-block; padding: 12px 22px; border-radius: 999px;
+      font-size: 15px; font-weight: 500; border: 1px solid transparent;
+    }
+    .btn:hover { text-decoration: none; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { filter: brightness(1.08); }
+    .btn-ghost { border-color: var(--line); color: var(--text); background: var(--surface); }
+    .btn-ghost:hover { border-color: var(--muted); }
+
+    /* Sections */
+    section { padding: 64px 0; }
+    .section-head { margin-bottom: 32px; }
+    .section-head h2 { font-size: clamp(28px, 4vw, 40px); letter-spacing: -0.015em; margin: 0 0 8px; }
+    .section-head p { color: var(--muted); margin: 0; max-width: 620px; }
+
+    /* Projects */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+    .card {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 26px;
+      display: flex; flex-direction: column; gap: 12px;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,.08); }
+    .card .icon {
+      width: 52px; height: 52px; border-radius: 13px;
+      display: grid; place-items: center; font-size: 26px; color: #fff;
+    }
+    .card h3 { margin: 4px 0 0; font-size: 20px; }
+    .card .kind { font-size: 13px; color: var(--muted); margin-top: -8px; }
+    .card p { margin: 0; color: var(--muted); font-size: 15px; flex: 1; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag {
+      font-size: 12px; padding: 4px 10px; border-radius: 999px;
+      background: var(--bg); border: 1px solid var(--line); color: var(--muted);
+    }
+    .card .link { font-size: 15px; font-weight: 500; }
+    .card .link.pending { color: var(--muted); }
+
+    /* Skills */
+    .skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+    .skill {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 22px;
+    }
+    .skill h3 { font-size: 16px; margin: 0 0 8px; }
+    .skill p { margin: 0; color: var(--muted); font-size: 15px; }
+
+    /* Contact */
+    .contact {
+      text-align: center; background: var(--surface);
+      border: 1px solid var(--line); border-radius: 28px;
+      padding: 56px 24px; margin-bottom: 64px;
+    }
+    .contact h2 { font-size: clamp(26px, 4vw, 36px); margin: 0 0 10px; }
+    .contact p { color: var(--muted); margin: 0 0 28px; }
+
+    footer { border-top: 1px solid var(--line); padding: 24px 0; color: var(--muted); font-size: 13px; }
+    footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+    @media (max-width: 560px) {
+      nav ul { gap: 14px; }
+      nav ul li.hide-sm { display: none; }
+      .hero { padding: 64px 0 48px; }
+      .card { padding: 22px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .card { transition: none; }
+      .card:hover { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="wrap">
+      <a class="brand" href="#">Luis Martínez</a>
+      <ul>
+        <li><a href="#proyectos">Proyectos</a></li>
+        <li class="hide-sm"><a href="#stack">Stack</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Desarrollo iOS · Swift &amp; SwiftUI</span>
+      <h1>Apps iOS construidas<br>con mentalidad de QA.</h1>
+      <p>Soy Luis Gerardo Martínez, QA Engineer en transición a desarrollo iOS. Diseño apps nativas con foco en seguridad, accesibilidad y calidad desde la primera línea de código.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#proyectos">Ver proyectos</a>
+        <a class="btn btn-ghost" href="https://github.com/Hyliard" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="proyectos">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Proyectos</h2>
+          <p>Una selección de apps nativas, de proyectos destacados a ejercicios de aprendizaje.</p>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <div class="icon" style="background:linear-gradient(135deg,#34c759,#0a8f3c)" aria-hidden="true">⏱</div>
+            <h3>ContractorHoursPay</h3>
+            <div class="kind">En desarrollo</div>
+            <p>Registro de horas, contratos, facturas y pagos para contratistas. Dashboard mensual con ingresos estimados por moneda y seguimiento de horas extra.</p>
+            <div class="tags"><span class="tag">SwiftUI</span><span class="tag">MVVM</span><span class="tag">REST API</span><span class="tag">async/await</span></div>
+            <span class="link pending">Próximamente</span>
+          </article>
+
+          <article class="card">
+            <div class="icon" style="background:linear-gradient(135deg,#5e5ce6,#2f2bb8)" aria-hidden="true">🔐</div>
+            <h3>PassGenerator iOS</h3>
+            <div class="kind">App nativa</div>
+            <p>Genera contraseñas con aleatoriedad segura (SecRandomCopyBytes y muestreo con rechazo), indicador de fortaleza y copiado accesible en modo claro y oscuro.</p>
+            <div class="tags"><span class="tag">SwiftUI</span><span class="tag">NavigationStack</span><span class="tag">Security</span></div>
+            <a class="link" href="https://github.com/Hyliard/passGeneratoriOS" target="_blank" rel="noopener">Ver código →</a>
+          </article>
+
+          <article class="card">
+            <div class="icon" style="background:linear-gradient(135deg,#ff9f0a,#e0620d)" aria-hidden="true">✓</div>
+            <h3>TodoListApp</h3>
+            <div class="kind">iOS 17+</div>
+            <p>Gestión de tareas con persistencia local: crear, eliminar y cambiar el estado de tareas desde una interfaz moderna.</p>
+            <div class="tags"><span class="tag">SwiftUI</span><span class="tag">SwiftData</span><span class="tag">iOS 17+</span></div>
+            <a class="link" href="https://github.com/Hyliard/TodoListApp" target="_blank" rel="noopener">Ver código →</a>
+          </article>
+
+          <article class="card">
+            <div class="icon" style="background:linear-gradient(135deg,#ff375f,#c2183b)" aria-hidden="true">🦸</div>
+            <h3>Buscador de Superhéroes</h3>
+            <div class="kind">Proyecto de aprendizaje</div>
+            <p>Consulta una API pública para buscar y explorar información de superhéroes.</p>
+            <div class="tags"><span class="tag">SwiftUI</span><span class="tag">URLSession</span><span class="tag">JSON</span></div>
+            <a class="link" href="https://github.com/Hyliard/SuperheroSearch" target="_blank" rel="noopener">Ver código →</a>
+          </article>
+
+          <article class="card">
+            <div class="icon" style="background:linear-gradient(135deg,#64d2ff,#0a84ff)" aria-hidden="true">⚖︎</div>
+            <h3>IMC Calculator</h3>
+            <div class="kind">Proyecto de aprendizaje</div>
+            <p>Calcula el índice de masa corporal a partir del peso y la altura.</p>
+            <div class="tags"><span class="tag">Swift</span><span class="tag">iOS</span></div>
+            <a class="link" href="https://github.com/Hyliard/AppIMCiOS" target="_blank" rel="noopener">Ver código →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="stack">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Stack</h2>
+          <p>Herramientas con las que trabajo a diario.</p>
+        </div>
+        <div class="skills">
+          <div class="skill"><h3>iOS</h3><p>Swift, SwiftUI, SwiftData, Xcode, TestFlight, App Store Connect.</p></div>
+          <div class="skill"><h3>Calidad</h3><p>Pruebas funcionales, regresión e integración, Playwright, Postman, SQL.</p></div>
+          <div class="skill"><h3>Backend</h3><p>APIs REST con Node.js, Express, PostgreSQL, Prisma y Docker.</p></div>
+          <div class="skill"><h3>Herramientas</h3><p>Git, GitHub, Docker, flujos de CI.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap" id="contacto">
+      <div class="contact">
+        <h2>¿Hablamos?</h2>
+        <p>Abierto a oportunidades como desarrollador iOS.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="https://www.linkedin.com/in/luis-gerardo-martinez-03898582/" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="btn btn-ghost" href="https://github.com/Hyliard" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn btn-ghost" href="mailto:luisgerardomartinezh@gmail.com">Email</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© 2026 Luis Gerardo Martínez Hernández</span>
+      <span>Hecho con HTML y CSS</span>
+    </div>
+  </footer>
+</body>
+</html>
